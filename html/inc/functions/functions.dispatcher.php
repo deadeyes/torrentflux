@@ -481,7 +481,34 @@ function dispatcher_multi($action) {
 			// TODO: complete this, not implemented for Transmission atm
 		}
 
-		if ( !$isTransmissionTorrent ) {
+		if ( $isTransmissionTorrent ) {
+
+			switch ($action) {
+				// TODO: get this part working once statistics are working
+//				case "transferWipe": /* transferWipe */
+//					$msgsDelete = deleteTransferData($transfer);
+//					if (count($msgsDelete) > 0)
+//				$dispatcherMessages = array_merge($dispatcherMessages, $msgsDelete);
+//					$msgsReset = resetTransferTotals($transfer, true);
+//					if (count($msgsReset) > 0)
+//				$dispatcherMessages = array_merge($dispatcherMessages, $msgsReset);
+//					break;
+				case "transferData": /* transferData */
+					deleteTransmissionTransfer($cfg['uid'], $transfer, true);
+					//$msgsDelete = deleteTransferData($transfer);
+					//if (count($msgsDelete) > 0)
+					if (count("Torrent deleted with data") > 0)
+				$dispatcherMessages = array_merge($dispatcherMessages, $msgsDelete);
+				case "transfer": /* transfer */ // Errr... why is deleting torrents in bulk called "transfer" :s TODO: use a all-saying-name
+					deleteTransmissionTransfer($cfg['uid'], $transfer);
+					//$ch = ClientHandler::getInstance($client);
+					//$ch->delete($transfer);
+					//if (count($ch->messages) > 0)
+					if (count("Torrent deleted") > 0)
+				$dispatcherMessages = array_merge($dispatcherMessages, $ch->messages);
+			}
+
+		} else {
 			// is valid transfer ? + check permissions
 			$invalid = true;
 			if (tfb_isValidTransfer($transfer) === true) {
