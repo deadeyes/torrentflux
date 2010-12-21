@@ -921,11 +921,12 @@ function _dispatcher_processUpload($name, $tmp_name, $size, $actionId, &$uploadM
 					if ($cfg["transmission_rpc_enable"]) {
 						require_once('inc/functions/functions.rpc.transmission.php');
 						$hash = addTransmissionTransfer( $cfg['uid'], $cfg['transfer_file_path'].$filename, $cfg['path'].$cfg['user'] );
-						//@unlink($cfg['transfer_file_path'].$filename);
-						//if ( $actionId > 1 ) {
-							//startTransmissionTransfer( $hash );
-							//array_push($tStack,$filename);
-						//}
+						@unlink($cfg['transfer_file_path'].$filename);
+						if ( $actionId > 1 ) {
+							startTransmissionTransfer( $hash );
+							array_push($tStack,$filename);
+						}
+						// TODO: find out if this return here is needed
 						//return true;
 					}
 					// inject
