@@ -159,7 +159,7 @@ function dispatcher_deleteTransfer($transfer) {
 	if ($cfg["transmission_rpc_enable"] && isHash($transfer) ) {
 		require_once('inc/functions/functions.rpc.transmission.php');
 		if ( isValidTransmissionTransfer($cfg['uid'],$transfer) ) {
-			deleteTransmissionTransfer($transfer);
+			deleteTransmissionTransfer($uid, $transfer);
 			return;
 		}
 	}
