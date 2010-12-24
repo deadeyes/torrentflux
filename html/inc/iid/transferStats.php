@@ -77,10 +77,10 @@ function transmissionSetVars ($transfer, $tmpl) {
 		$tmpl->setvar('cons', netstatConnectionsByPid($transfer_pid));
 
 		// up speed
-		$tmpl->setvar('up_speed', (trim($returnArr['rateUpload']) != "") ?  $returnArr['rateUpload'] : '0.0 kB/s');
+		$tmpl->setvar('up_speed', (trim($returnArr['rateUpload']) != "") ? formatBytesTokBMBGBTB( $returnArr['rateUpload'] ) . '/s' : '0.0 kB/s');
 
 		// down speed
-		$tmpl->setvar('down_speed', (trim($returnArr['rateDownload']) != "") ? $returnArr['rateDownload'] : '0.0 kB/s');
+		$tmpl->setvar('down_speed', (trim($returnArr['rateDownload']) != "") ? formatBytesTokBMBGBTB( $returnArr['rateDownload'] ) . '/s' : '0.0 kB/s');
 
 		// sharekill
 		$tmpl->setvar('sharekill', ($ch->sharekill != 0) ? $ch->sharekill.'%' : '&#8734');
