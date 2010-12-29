@@ -143,6 +143,10 @@ if ($cfg["transmission_rpc_enable"]) {
 			$status = "Seeding";
 			$transferRunning = true;
 			break;
+		case 2:
+			$status = "Checking data...";
+			$transferRunning = true;
+			break;
 		}
 
 		// TODO: transferowner is always admin... probably not what we want
