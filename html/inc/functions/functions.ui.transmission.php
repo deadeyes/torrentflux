@@ -56,7 +56,7 @@ function transmissionSetVars ($transfer, $tmpl) {
 			$seeds += ($tracker['seederCount']==-1 ? 0 : $tracker['seederCount']);
 			$announceResult = $tracker['lastAnnounceResult'];
 		}
-		$seeds = $seeds . ($announceResult==""? "" : " ($announceResult)" );
+		$seeds = $seeds . ($announceResult!="" && $seeds == 0 ? " ($announceResult)" : "" );
 		$tmpl->setvar('seeds', $seeds);
 		$tmpl->setvar('peers', sizeof($returnArr['peers']) );
 
