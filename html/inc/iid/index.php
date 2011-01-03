@@ -149,12 +149,16 @@ if ($cfg["transmission_rpc_enable"]) {
 			break;
 		}
 
+		$seeds = 0;
+		foreach($aTorrent['trackerStats'] as $tracker) {
+			$seeds += ($tracker['seederCount']==-1 ? 0 : $tracker['seederCount']);
+		}
 		// TODO: transferowner is always admin... probably not what we want
 		$tArray = array(
 			'is_owner' => true,
 			'transferRunning' => ($transferRunning ? 1 : 0),
 			'url_entry' => $aTorrent['hashString'],
-			'hd_image' => getTransmissionStatusImage($transferRunning, $aTorrent['trackerStats']['seederCount'], $aTorrent['rateUpload']),
+			'hd_image' => getTransmissionStatusImage($transferRunning, $seeds, $aTorrent['rateUpload']),
 			'hd_title' => $nothing,
 			'displayname' => $aTorrent['name'],
 			'transferowner' => 'administrator',
