@@ -25,7 +25,7 @@ function transmissionSetVars ($transfer, $tmpl) {
 
 	//require_once('inc/functions/functions.rpc.transmission.php');
 	require_once('functions.rpc.transmission.php');
-	$options = array("eta","percentDone", "rateDownload", "rateUpload", "downloadedEver", "uploadedEver", "percentDone", "sizeWhenDone");
+	$options = array("eta","percentDone", "rateDownload", "rateUpload", "downloadedEver", "uploadedEver", "percentDone", "sizeWhenDone","peers","trackerStats");
 	$returnArr = getTransmissionTransfer($transfer, $options);
 
 	$tmpl->setvar('transferowner', getTransmissionTransferOwner($transfer));
@@ -51,8 +51,14 @@ function transmissionSetVars ($transfer, $tmpl) {
 		$tmpl->setvar('upTotalCurrent', formatFreeSpace($totalsCurrent["uptotal"] / 1048576));
 
 		// seeds + peers
-		$tmpl->setvar('seeds', $sf->seeds);
-		$tmpl->setvar('peers', $sf->peers);
+		$seeds = 0;
+		foreach ( $returnArr['trackerStats'] as $tracker ) {
+			$seeds += ($tracker['seederCount']==-1 ? 0 : $tracker['seederCount']);
+			$announceResult = $tracker['lastAnnounceResult'];
+		}
+		$seeds = $seeds . ($announceResult==""? "" : " ($announceResult)" );
+		$tmpl->setvar('seeds', $seeds);
+		$tmpl->setvar('peers', sizeof($returnArr['peers']) );
 
 		// port + cons
 		$transfer_pid = getTransferPid($transfer);
